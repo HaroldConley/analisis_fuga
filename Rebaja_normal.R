@@ -36,7 +36,7 @@ resultado <- data.frame(mat) # De matriz a DF
 fug_vig_tarifa <- data.frame(mat) # De matriz a DF
 
 # Base de datos original
-data_raw <- read_excel("C:/Harold Personal/Diplomado Big Data UC/8 - Ciencia de datos y sus aplicaciones/Trabajos/Grupal 1/Proyecto 1 - Base analisis de fuga2022.xls")
+data_raw <- read_excel("C:/Harold Personal/Company/Proyecto 1 - Base analisis de fuga2022.xls")
 columnas = c("IDCliente","PlanInternacionalPreferente","PlanInternetIlim","MBNavegados","TotalMinHoraNormal","TotalLLamaHoraNormal","CobroLLamaHoraNormal","TotalMinHoraReduc","TotalLLamaHoraReduc","CobroLlamaHoraReduc",
              "TotalMinHoraNoct","TotalLLamaHoraNoct","CobroLLamaHoraNoct","TotalMinInternacional","TotalLLamaInternacional",
              "CobroLLamaInternacional", "LlamadaAtencionCliente", "Fuga")
@@ -193,57 +193,11 @@ resultado <- data.frame(unlist(tarifa), unlist(fugados), unlist(vigentes), unlis
 names(resultado) <- c('Tarifa', 'Fugados', 'Vigentes', 'Total', 'Ganancia_actual', 'Ganancia_nueva', 'Ganancia_neta')
 
 # Exportando a Excel
-write_xlsx(resultado, "C:/Harold Personal/Diplomado Big Data UC/8 - Ciencia de datos y sus aplicaciones/Trabajos/Grupal 1/Resultado.xlsx")
+write_xlsx(resultado, "C:/Harold Personal/Company/Resultado.xlsx")
 
 # Creando DF con la lista de cada Fugado y Vigente según tarifa, usando las listas creadas en el "for" anterior
 fug_vig_tarifa <- data.frame(unlist(num_tarifa), unlist(condicion))
 names(fug_vig_tarifa) <- c('Tarifa', 'Condicion')
 
 # Exportando a Excel
-write_xlsx(fug_vig_tarifa, "C:/Harold Personal/Diplomado Big Data UC/8 - Ciencia de datos y sus aplicaciones/Trabajos/Grupal 1/Condicion_Tarifa.xlsx")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# ----------------------------------- ESTO DE ABAJO NO LO USÉ --------------------------------------------------------------------------------
-
-
-
-# Random Forest
-install.packages("randomForestExplainer")
-library(randomForestExplainer)
-
-RF_model <- randomForest(as.factor(Fuga) ~ .,localImp = TRUE, data=training.data, method="class")
-RF_predict <- predict(RF_model, testing.data, type = "class")
-confusionMatrix(RF_predict, as.factor(testing.data$Fuga), positive = 'Fugado')
-
-RF_model
-min_depth_frame <- min_depth_distribution(RF_model)
-head(min_depth_frame, n = 10)
-plot_min_depth_distribution(min_depth_frame)
-
-install.packages("xfun", type="binary")
-library(xfun)
-explain_forest(RF_model, interactions = TRUE, data = data.clean ) 
-
-
-#SVM
-library(e1071)
-
-SV_model<-svm(as.factor(Fuga) ~ ., data=training.data, method="class")
-sv <- predict(SV_model, testing.data, type = "class")
-confusionMatrix(sv, as.factor(testing.data$Fuga), positive = 'Fugado')
+write_xlsx(fug_vig_tarifa, "C:/Harold Personal/Company/Condicion_Tarifa.xlsx")
